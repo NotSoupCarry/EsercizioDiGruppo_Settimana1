@@ -94,14 +94,46 @@ public class Portale {
 
         System.out.print("Password: ");
         String password = controlloInputStringhe(scanner);
-
+        int i = 0;
         // Controllo credenziali
         for (ArrayList<Object> utente : utenti) {
             if (utente.get(0).equals(nome) && utente.get(1).equals(password)) {
                 System.out.println("Login effettuato con successo! Benvenuto, " + nome);
-                return;
+                i++;
+                gestisciProfilo(scanner, i);
             }
         }
         System.out.println("Nome utente o password errati. Riprova.");
     }
+
+    private static void gestisciProfilo(Scanner scanner, int indice) {
+        boolean exitGestioneProfilo = false;
+        while (!exitGestioneProfilo) {
+            // Menu di gestione del profilo
+            System.out.println("\n1. Modifica profilo");
+            System.out.println("2. Calcolatrice");
+            System.out.println("3. Inventario");
+            System.out.println("4. Esci");
+            System.out.print("Scelta: ");
+            int scelta = controlloInputInteri(scanner); // Controlla la scelta dell'utente
+
+            switch (scelta) {
+                case 1:
+                    // modificaNome(scanner, indice); // Modifica del nome
+                    break;
+                case 2:
+                    // calcolatrice(scanner, indice); // Modifica della password
+                    break;
+                case 3:
+                    // Inventario(scanner, indice); // Modifica della password
+                    break;
+                case 4:
+                    exitGestioneProfilo = true; // Esce dalla gestione del profilo
+                    return;
+                default:
+                    System.out.println("Scelta non valida!"); // Gestisce la scelta non valida
+            }
+        }
+    }
+
 }
