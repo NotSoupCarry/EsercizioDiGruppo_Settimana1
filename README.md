@@ -1,7 +1,7 @@
 # EsercizioDiGruppo_Settimana1
 import java.util.Arraylist;
 
-public class Gestionale {
+public class Eserciziogruppo {
     static Scanner scanner = new Scanner(System.in);
     static List<Utente> utenti = new ArrayList<>();
     static Utente utenteLoggato = null;
