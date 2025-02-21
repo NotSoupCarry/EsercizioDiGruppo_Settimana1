@@ -3,58 +3,47 @@ import java.util.Scanner;
 
 public class Portale {
 
-    ArrayList<ArrayList<Object>> utenti = new ArrayList<>();
-    // Creazione arraylist per l'inventario dei calcoli effettuati
-    static ArrayList<Double> calcoliEffettuali = new ArrayList<>();
+    static ArrayList<ArrayList<Object>> utenti = new ArrayList<>();
+    static ArrayList<Double> calcoliEffettuati = new ArrayList<>();
 
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
-        Portale portale = new Portale(); // Istanza della classe per gestire gli utenti
+        Portale portale = new Portale();
 
         System.out.println("\n*** BENVENUTO SU CALCOLATORE MAXIMUM DECIMUS MERIDIUM ***");
         while (true) {
-            // Menu principale
             System.out.println("\n1. Registrati");
             System.out.println("2. Login");
             System.out.println("3. Esci");
             System.out.print("Scelta: ");
-            int scelta = controlloInputInteri(scanner); // Chiede la scelta dell'utente
+            int scelta = controlloInputInteri(scanner);
 
             switch (scelta) {
                 case 1:
-                    portale.registrazione(scanner); // Registrazione
+                    portale.registrazione(scanner);
                     break;
                 case 2:
-                    portale.login(scanner); // Login
+                    portale.login(scanner);
                     break;
                 case 3:
                     System.out.println("Chiusura programma...");
-                    return; // Esce dal programma
+                    return;
                 default:
-                    System.out.println("Scelta non valida!"); // Gestisce scelte errate
+                    System.out.println("Scelta non valida!");
             }
         }
     }
 
-    // Metodo per controllare l'input intero
     public static int controlloInputInteri(Scanner scanner) {
-        int valore;
-        do {
-            while (!scanner.hasNextInt()) {
-                System.out.print("Devi inserire un numero intero. Riprova: ");
-                scanner.next();
-            }
-            valore = scanner.nextInt();
-            scanner.nextLine();
-            if (valore < 0) {
-                System.out.print("Il numero non può essere negativo. Riprova: ");
-            }
-        } while (valore < 0);
+        while (!scanner.hasNextInt()) {
+            System.out.print("Devi inserire un numero intero. Riprova: ");
+            scanner.next();
+        }
+        int valore = scanner.nextInt();
+        scanner.nextLine(); 
         return valore;
     }
 
-    // Metodo per controllare che l'input stringa non sia vuoto
     public static String controlloInputStringhe(Scanner scanner) {
         String valore;
         do {
@@ -66,7 +55,6 @@ public class Portale {
         return valore;
     }
 
-    // Metodo per registrare un utente e salvarlo nella lista
     public void registrazione(Scanner scanner) {
         System.out.print("Nome: ");
         String nome = controlloInputStringhe(scanner);
@@ -80,168 +68,135 @@ public class Portale {
         System.out.print("Email: ");
         String email = controlloInputStringhe(scanner);
 
-        // Creazione del profilo utente e aggiunta alla lista utenti
         ArrayList<Object> utente = new ArrayList<>();
         utente.add(nome);
         utente.add(password);
         utente.add(eta);
         utente.add(email);
 
+        utenti.add(utente); // CORREZIONE: Aggiungere l'utente alla lista
+
         System.out.println("Registrazione completata con successo!");
     }
 
-    // Metodo per il login
     public void login(Scanner scanner) {
         System.out.print("Nome: ");
         String nome = controlloInputStringhe(scanner);
 
         System.out.print("Password: ");
         String password = controlloInputStringhe(scanner);
-        int i = 0;
-        // Controllo credenziali
-        for (ArrayList<Object> utente : utenti) {
+
+        for (int i = 0; i < utenti.size(); i++) {
+            ArrayList<Object> utente = utenti.get(i);
             if (utente.get(0).equals(nome) && utente.get(1).equals(password)) {
                 System.out.println("Login effettuato con successo! Benvenuto, " + nome);
-                i++;
                 gestisciProfilo(scanner, i);
+                return;
             }
         }
         System.out.println("Nome utente o password errati. Riprova.");
     }
 
-    private static void gestisciProfilo(Scanner scanner, int indice) {
-        boolean exitGestioneProfilo = false;
-        while (!exitGestioneProfilo) {
-            // Menu di gestione del profilo
+    public static void gestisciProfilo(Scanner scanner, int indice) {
+        while (true) {
             System.out.println("\n1. Modifica profilo");
             System.out.println("2. Calcolatrice");
             System.out.println("3. Inventario");
             System.out.println("4. Esci");
             System.out.print("Scelta: ");
-            int scelta = controlloInputInteri(scanner); // Controlla la scelta dell'utente
+            int scelta = controlloInputInteri(scanner);
 
             switch (scelta) {
                 case 1:
-                    // modificaNome(scanner, indice); // Modifica del nome
+                    modificaUtente(indice, scanner);
                     break;
                 case 2:
-                    calcolatrice(calcoliEffettuali); // Modifica della password
+                    calcolatrice(calcoliEffettuati);
                     break;
                 case 3:
-                    inventario(calcoliEffettuali); // Modifica della password
+                    inventario(calcoliEffettuati);
                     break;
                 case 4:
-                    exitGestioneProfilo = true; // Esce dalla gestione del profilo
                     return;
                 default:
-                    System.out.println("Scelta non valida!"); // Gestisce la scelta non valida
+                    System.out.println("Scelta non valida!");
             }
         }
     }
 
-    // Funzione per la calcolatrice
-    public static void calcolatrice(ArrayList<Double> calcoliEffettuali) {
-        // Apertura scanner
+    public static void modificaUtente(int indice, Scanner scanner) {
+        if (indice < 0 || indice >= utenti.size()) {
+            System.out.println("Indice non valido! Nessun utente trovato.");
+            return;
+        }
+
+        ArrayList<Object> utente = utenti.get(indice);
+
+        System.out.print("Nuovo nome: ");
+        utente.set(0, controlloInputStringhe(scanner));
+
+        System.out.print("Nuova email: ");
+        utente.set(3, controlloInputStringhe(scanner));
+
+        System.out.print("Nuova età: ");
+        utente.set(2, controlloInputInteri(scanner));
+
+        System.out.println("Dati aggiornati con successo!");
+    }
+
+    public static void calcolatrice(ArrayList<Double> calcoliEffettuati) {
         Scanner input = new Scanner(System.in);
-        // Variabile per salvare l'operazione nell'arraylist
-        double operazione = 0;
 
         while (true) {
             System.out.println(
                     "Vuoi effettuare un'operazione? (1 - Addizione, 2 - Sottrazione, 3 - Moltiplicazione, 4 - Divisione, -1=Esci): ");
-            double scelta = input.nextDouble();
+            int scelta = controlloInputInteri(input);
 
             if (scelta == -1) {
                 System.out.println("Uscita dalla calcolatrice");
                 break;
-            } else if (scelta == 1) {
-                // Prendo gli operandi dell'operazione
-                System.out.println("Aggiungi addendo1: ");
-                double addendo1 = input.nextDouble();
-                input.next();
-
-                System.out.println("Aggiungi addendo2: ");
-                double addendo2 = input.nextDouble();
-                input.next();
-
-                operazione = addendo1 + addendo2;
-                System.out.println("Risultato addizione: " + operazione);
-
-                // Aggiunta risultato all'arraylist
-                calcoliEffettuali.add(operazione);
-
-            } else if (scelta == 2) {
-                // Prendo gli operandi dell'operazione
-                System.out.println("Aggiungi sottraendo1: ");
-                double sottraendo1 = input.nextDouble();
-                input.next();
-
-                System.out.println("Aggiungi sottraendo2: ");
-                double sottraendo2 = input.nextDouble();
-                input.next();
-
-                operazione = sottraendo1 - sottraendo2;
-                System.out.println("Risultato sottraendo: " + operazione);
-
-                // Aggiunta risultato all'arraylist
-                calcoliEffettuali.add(operazione);
-
-            } else if (scelta == 3) {
-                // Prendo gli operandi dell'operazione
-                System.out.println("Aggiungi fattore1: ");
-                double fattore1 = input.nextDouble();
-                input.next();
-
-                System.out.println("Aggiungi fattore2: ");
-                double fattore2 = input.nextDouble();
-                input.next();
-
-                operazione = fattore1 * fattore2;
-                System.out.println("Risultato moltiplicazione: " + operazione);
-
-                // Aggiunta risultato all'arraylist
-                calcoliEffettuali.add(operazione);
-
-            } else if (scelta == 4) {
-                // Prendo gli operandi dell'operazione
-                System.out.println("Aggiungi dividendo: ");
-                double dividendo = input.nextDouble();
-                input.next();
-
-                System.out.println("Aggiungi divisore: ");
-                double divisore = input.nextDouble();
-                input.next();
-
-                // Evita la divisione per zero
-                while (divisore == 0) {
-                    System.out.println("Errore: Il divisore non può essere zero! Inserisci un altro numero:");
-                    divisore = input.nextDouble();
-                    input.next();
-                }
-                operazione = dividendo / divisore;
-                System.out.println("Risultato divisione: " + operazione);
-
-                // Aggiunta risultato all'arraylist
-                calcoliEffettuali.add(operazione);
-
-            } else {
-                System.out.println("Inserisci un numero tra 1 e 4 o -1 per uscire.");
             }
+
+            System.out.print("Inserisci primo numero: ");
+            double num1 = input.nextDouble();
+            System.out.print("Inserisci secondo numero: ");
+            double num2 = input.nextDouble();
+
+            double risultato = 0;
+            switch (scelta) {
+                case 1:
+                    risultato = num1 + num2;
+                    break;
+                case 2:
+                    risultato = num1 - num2;
+                    break;
+                case 3:
+                    risultato = num1 * num2;
+                    break;
+                case 4:
+                    if (num2 == 0) {
+                        System.out.println("Errore: Divisione per zero non consentita.");
+                        continue;
+                    }
+                    risultato = num1 / num2;
+                    break;
+                default:
+                    System.out.println("Scelta non valida.");
+                    continue;
+            }
+
+            System.out.println("Risultato: " + risultato);
+            calcoliEffettuati.add(risultato);
         }
-        // Chiusura scanner
-        input.close();
     }
 
-    // Funzione per visualizzare tutti i calcoli precedenti
     public static void inventario(ArrayList<Double> calcoliEffettuati) {
         if (calcoliEffettuati.isEmpty()) {
             System.out.println("Nessuna operazione salvata!");
             return;
         }
-        // Ciclo per la stampa dei calcoli effettuati in precedenza
-        for (int i = 1; i <= calcoliEffettuati.size(); i++) {
-            System.out.println("Operazione " + i + " -> Risultato: " + calcoliEffettuati.get(i));
+        for (int i = 0; i < calcoliEffettuati.size(); i++) {
+            System.out.println("Operazione " + (i + 1) + " -> Risultato: " + calcoliEffettuati.get(i));
         }
     }
-
 }
