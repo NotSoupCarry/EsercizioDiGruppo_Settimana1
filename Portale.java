@@ -22,7 +22,7 @@ public class Portale {
                     break;
                 case 2:
                     // login(scanner); // Login dell'utente
-                    break;                
+                    break;
                 case 3:
                     System.out.println("Funzionalità");
                     return; // Esce dal programma
@@ -62,3 +62,4 @@ public class Portale {
         return valore; // Restituisce l'input valido
     }
 }
+
