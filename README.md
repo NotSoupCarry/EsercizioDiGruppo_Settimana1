@@ -1,0 +1,1 @@
+# EsercizioDiGruppo_Settimana1
