@@ -12,8 +12,7 @@ public class Portale {
             // Menu principale
             System.out.println("\n1. Registrati");
             System.out.println("2. Login");
-            System.out.println("3. Funzionalità");
-            System.out.println("4. Esci");
+            System.out.println("3. Esci");
             System.out.print("Scelta: ");
             int scelta = controlloInputInteri(scanner); // Chiede la scelta dell'utente
 
@@ -23,11 +22,8 @@ public class Portale {
                     break;
                 case 2:
                     // login(scanner); // Login dell'utente
-                    break;
+                    break;                
                 case 3:
-                    // funzionalità(scanner); // Login dell'utente
-                    break;
-                case 4:
                     System.out.println("Funzionalità");
                     return; // Esce dal programma
                 default:
