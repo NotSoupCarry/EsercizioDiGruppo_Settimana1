@@ -74,7 +74,7 @@ public class Portale {
         utente.add(eta);
         utente.add(email);
 
-        utenti.add(utente); // CORREZIONE: Aggiungere l'utente alla lista
+        utenti.add(utente); 
 
         System.out.println("Registrazione completata con successo!");
     }
