@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class modificaUtente {
+public class ModificaUtente {
 
     // ArrayList contenente gli utenti, ciascuno rappresentato come un ArrayList di
     // Object
